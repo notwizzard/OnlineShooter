@@ -1,15 +1,13 @@
-using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FireController : MonoBehaviourPun
+public class FireController : MonoBehaviour
 {
     [SerializeField] private GameObject muzzleEnd, bullet;
     [SerializeField] private float timeToFire;
     [SerializeField] private Animator muzzleAnimation;
 
-    private PhotonView photonView;
     /*[SerializeField]
     AudioClip clip, shooted;
 
@@ -20,12 +18,10 @@ public class FireController : MonoBehaviourPun
     {
         lastFireTime = Time.time;
         //audio = gameObject.GetComponent<AudioSource>();
-        photonView = transform.root.gameObject.GetComponent<PhotonView>();
     }
 
     private void Update()
     {
-        if (!photonView.IsMine) return;
         if (Input.GetKey(KeyCode.Mouse0))
         {
             if (Time.time - timeToFire >= lastFireTime)
@@ -33,10 +29,9 @@ public class FireController : MonoBehaviourPun
                 //audio.PlayOneShot(clip);
                 lastFireTime = Time.time;
                 muzzleAnimation.Play("MuzzlePush");
-                GameObject bulletForDestroying = PhotonNetwork.Instantiate(bullet.name, muzzleEnd.transform.position, muzzleEnd.transform.rotation);
+                GameObject bulletForDestroying = Instantiate(bullet, muzzleEnd.transform.position, muzzleEnd.transform.rotation);
             }
         }
     }
 
-    
 }

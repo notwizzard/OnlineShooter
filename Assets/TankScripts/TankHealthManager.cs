@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.Events;
-using Photon.Pun;
 
 public class TankHealthManager : MonoBehaviour
 {
@@ -18,15 +17,13 @@ public class TankHealthManager : MonoBehaviour
     [SerializeField] private Transform canvasForDamage;
     [SerializeField] private float damagePointSleepTime;
 
-    private PhotonView photonView;
     private float tankHealth;
 
     private void Start()
     {
-        photonView = gameObject.GetComponent<PhotonView>();
         tankHealth = tankStartHealth;
         canvasForDamage = GameObject.Find("CanvasForDamage").transform;
-        if (photonView.IsMine) healthBar = GameObject.Find("Bar").GetComponent<Image>();
+        healthBar = GameObject.Find("Bar").GetComponent<Image>();
     }
 
     private void Update()
@@ -43,6 +40,19 @@ public class TankHealthManager : MonoBehaviour
                 Debug.Log("Worked");
             }
         }*/
+        if (collision.gameObject.tag == "Bullet")
+            return;
+
+        CountDamage(collision);
+    }
+
+    public void TakeDamageFromBullet(Collision collision)
+    {
+        CountDamage(collision);
+    }
+
+    private void CountDamage(Collision collision)
+    {
         Vector3 vectorDamage = collision.impulse / Time.fixedDeltaTime;
 
         TakeDamage(vectorDamage, collision.contacts[0].thisCollider.gameObject.tag, collision.contacts[0].point);
@@ -109,7 +119,7 @@ public class TankHealthManager : MonoBehaviour
             }
         }
 
-        GameObject instantiatedObject = PhotonNetwork.Instantiate(damageTMPObject.name, damageUIPoints[numberOfNearestPoint].position, damageUIPoints[numberOfNearestPoint].rotation);
+        GameObject instantiatedObject = Instantiate(damageTMPObject, damageUIPoints[numberOfNearestPoint].position, damageUIPoints[numberOfNearestPoint].rotation);
         instantiatedObject.transform.SetParent(canvasForDamage);
         StartCoroutine(DamagePointsActivator(numberOfNearestPoint));
         instantiatedObject.transform.GetChild(0).gameObject.GetComponent<TMP_Text>().text = Mathf.Round(damage).ToString();

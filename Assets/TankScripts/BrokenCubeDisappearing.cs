@@ -1,4 +1,3 @@
-using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,13 +6,9 @@ public class BrokenCubeDisappearing : MonoBehaviour
 {
     [SerializeField] private float maxLifeTime, minLifeTime;
     [SerializeField] private string animationName;
-
-    PhotonView photonView;
      
     void Start()
     {
-        photonView = gameObject.GetComponent<PhotonView>();
-        if (!photonView.IsMine) return;
         StartCoroutine("Disappearing");
     }
 

@@ -1,4 +1,3 @@
-using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -51,13 +50,6 @@ public class BarrelController : MonoBehaviour
             {
                 ExplosionDamage(hitCollider, distanceToCollider);
             }
-
-            /*if (Physics.Raycast(ray, out hit, explosionRadius))
-            {
-                float proportionalHeight = (hoverHeight - hit.distance) / hoverHeight;
-                Vector3 appliedHoverForce = Vector3.up * proportionalHeight * hoverForce;
-                tankRigidbody.AddForce(appliedHoverForce, ForceMode.Acceleration);
-            }*/
         }
     }
         
@@ -131,16 +123,11 @@ public class BarrelController : MonoBehaviour
     {
         Transform spawnTransform = transform;
         gameObject.SetActive(false);
-        Destroyer(PhotonNetwork.Instantiate(explosionParticle.name, spawnTransform.position, spawnTransform.rotation), 5f);
-        GameObject destructedObject = PhotonNetwork.Instantiate(destructedObjectPrefab.name, spawnTransform.position, spawnTransform.rotation);
+        Destroy(Instantiate(explosionParticle, spawnTransform.position, spawnTransform.rotation), 5f);
+        GameObject destructedObject = Instantiate(destructedObjectPrefab, spawnTransform.position, spawnTransform.rotation);
         foreach (Transform child in destructedObject.transform)
         {
             child.gameObject.GetComponent<Rigidbody>().AddExplosionForce(explosionForce, destructedObject.transform.position, 2f);
         }
-    }
-    private IEnumerator Destroyer(GameObject go, float time)
-    {
-        yield return new WaitForSeconds(time);
-        PhotonNetwork.Destroy(go);
     }
 }

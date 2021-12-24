@@ -1,4 +1,3 @@
-using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,22 +19,19 @@ public class TankMovement : MonoBehaviour
     private float moveInput;
     private float turnInput;
 
-    private PhotonView photonView;
-
     private void Awake ()
     {           
         tankRigidbody = GetComponent<Rigidbody>();
-        photonView = gameObject.GetComponent<PhotonView>();
         nowMaxVelocity = normalStateMaxVelocity;
+    }
+
+    private void Start()
+    {
+
     }
 
     private void Update ()
     {
-        myCamera.gameObject.SetActive(photonView.IsMine);
-        if (!photonView.IsMine)
-        {
-            return;
-        }
         moveInput = Input.GetAxis("Vertical");
         turnInput = Input.GetAxis("Horizontal");
 
@@ -45,7 +41,6 @@ public class TankMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!photonView.IsMine) return;
         if (Mathf.Sqrt(Mathf.Pow(tankRigidbody.velocity.x, 2) + Mathf.Pow(tankRigidbody.velocity.z, 2)) < nowMaxVelocity)
             tankRigidbody.AddRelativeForce(0f, 0f, moveInput * movementSpeed);
 

@@ -17,9 +17,9 @@ public class LocalGameManager : MonoBehaviour
     {
         Player = PhotonNetwork.Instantiate(PlayerPrefab.name, new Vector3(0f, 10f, 0f), Quaternion.identity);
         photonView = Player.GetComponent<PhotonView>();
-        if (photonView.Owner.IsMasterClient)
+        if (photonView.Owner.IsMasterClient && photonView.IsMine)
         {
-            PhotonNetwork.Instantiate(environment.name, new Vector3(0f, 0f, 0f), Quaternion.Euler(0f, 0f, 0f));
+            //PhotonNetwork.Instantiate(environment.name, new Vector3(0f, 0f, 0f), Quaternion.Euler(0f, 0f, 0f));
             Debug.Log("Is Master");
         }
 

@@ -1,4 +1,3 @@
-using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,7 +10,6 @@ public class HoverMotor : MonoBehaviour
     [SerializeField] private float timeToRaise = 5f;
     [SerializeField] private float RaiseTime = 3f;
     [SerializeField] private Transform centerOfMass;
-    [SerializeField] private PhotonView photonView;
 
     [SerializeField] private Transform[] hovers;
 
@@ -25,12 +23,10 @@ public class HoverMotor : MonoBehaviour
         tankRigidbody = GetComponent<Rigidbody>();
         tankRigidbody.centerOfMass = centerOfMass.localPosition;
         hoverHeight = normalHoverHeight;
-        photonView = gameObject.GetComponent<PhotonView>();
     }
 
     private void Update()
     {
-        if (!photonView.IsMine) return;
         Raise();
     }
 
